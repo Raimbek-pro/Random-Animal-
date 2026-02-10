@@ -27,15 +27,17 @@ struct ContentView: View {
     
     @State var currentIndex : Int = 0
     @State var tapCount : Int = 0
+    @State var isAnimating : Bool = false
     
-    
+   
     var body: some View {
         VStack {
+         
             
             Image(systemName: "\(itemIcons[currentIndex])")
                 .font((.system(size: 80)))
+                .scaleEffect(isAnimating ? 2.0 : 1.0)
                 
-            
             Text("\(itemNames[currentIndex])")
                 .font(.title)
                 .bold()
@@ -62,6 +64,21 @@ struct ContentView: View {
                     newIndex  = Int.random(in: 0..<itemNames.count)
                 } while newIndex == currentIndex
                 
+                    
+                withAnimation(.spring) {
+                    isAnimating.toggle()
+                   
+                } completion: {
+                    withAnimation(.spring){
+                        isAnimating.toggle()
+                    }
+                }
+                
+               
+               
+                
+                
+                
                 currentIndex = newIndex
                 tapCount += 1
                 
@@ -79,7 +96,6 @@ struct ContentView: View {
             Text("Cards explored : \(tapCount)")
                 .padding(10)
             
-                
                 
         }
         .padding()

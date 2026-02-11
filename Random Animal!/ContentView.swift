@@ -24,83 +24,116 @@ struct ContentView: View {
     
     var itemRatings : [Int] = [3,5,2,4,5,0]
     
+ 
     
     @State var currentIndex : Int = 0
     @State var tapCount : Int = 0
     @State var isAnimating : Bool = false
     
-   
+    var firstTime = 0
+    
+    
     var body: some View {
-        VStack {
-         
+        
+        ZStack{
             
-            Image(systemName: "\(itemIcons[currentIndex])")
-                .font((.system(size: 80)))
-                .scaleEffect(isAnimating ? 2.0 : 1.0)
+            LinearGradient(colors: [.teal,.red], startPoint: .top, endPoint: UnitPoint(x: 0.5, y:3.5/CGFloat(itemRatings[currentIndex]+1)))
+           
+                .ignoresSafeArea(.all)
+            
+            VStack {
                 
-            Text("\(itemNames[currentIndex])")
-                .font(.title)
-                .bold()
-            
-            Divider()
-            
-            Text("\(itemDescriptions[currentIndex])")
-                .font(.body)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding([.leading, .trailing],30)
-            
-          let stringRating =   itemRatings[currentIndex] != 0 ? String(repeating: "🐾", count: itemRatings[currentIndex]) : "Not rated yet"
-               
-                  
                 
-            Text("Cuteness: \(stringRating)")
-                .foregroundStyle(.secondary)
-                .padding(10)
-            
-            Button(action: {
-                var newIndex : Int
-                repeat{
-                    newIndex  = Int.random(in: 0..<itemNames.count)
-                } while newIndex == currentIndex
+                Image(systemName: "\(itemIcons[currentIndex])")
+                    .font((.system(size: 80)))
+                    .scaleEffect(isAnimating ? 2.0 : 1.0)
                 
+                Text("\(itemNames[currentIndex])")
+                    .font(.title)
+                    .bold()
+                
+                Divider()
+                
+                Text("\(itemDescriptions[currentIndex])")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding([.leading, .trailing],30)
+                
+                let stringRating =   itemRatings[currentIndex] != 0 ? String(repeating: "🐾", count: itemRatings[currentIndex]) : "Not rated yet"
+                
+                
+                
+                Text("Cuteness: \(stringRating)")
+                    .foregroundStyle(.secondary)
+                    .padding(10)
+                
+                Button(action: {
+                    var newIndex : Int
+                    repeat{
+                        newIndex  = Int.random(in: 0..<itemNames.count)
+                    } while newIndex == currentIndex
                     
-                withAnimation(.spring) {
-                    isAnimating.toggle()
-                   
-                } completion: {
-                    withAnimation(.spring){
+                    
+                    withAnimation(.spring()) {
                         isAnimating.toggle()
+                        
+                        
+                    } completion: {
+                        
+                        withAnimation(.spring){
+                            isAnimating.toggle()
+                        }
                     }
-                }
-                
-               
-               
-                
-                
-                
-                currentIndex = newIndex
-                tapCount += 1
-                
-            }, label: {
-                Text("Surpise me")
-                    .padding(12)
-                  //  .background(Color.blue)
-                 //   .foregroundStyle(Color.white)
-                 //   .clipShape(.capsule)
                     
                     
-            })
-            .buttonStyle(.borderedProminent)
-            
-            Text("Cards explored : \(tapCount)")
-                .padding(10)
-            
+                    
+                    
+                    currentIndex = newIndex
+                    
+                    
+                    tapCount += 1
+                    
+                }, label: {
+                    Text("Surpise me")
+                        .padding(12)
+                    //  .background(Color.blue)
+                    //   .foregroundStyle(Color.white)
+                    //   .clipShape(.capsule)
+                    
+                    
+                })
+                .buttonStyle(.borderedProminent)
                 
+                Text("Cards explored : \(tapCount)")
+                    .padding(10)
+                
+                
+            }
+            
+            
+          
+            
+            
+            
+            
+            
+                .padding()
+            
         }
-        .padding()
+    
+        
+        
+        
+        
     }
+    
+//    private var back : some View {
+//      
+//    }
+
 }
+
 
 #Preview {
     ContentView()

@@ -18,7 +18,7 @@ struct ContentView: View {
      "life is a bubble , under the seaaaa! round enormous eyes look at me , so strange yet cute",
     "their eyes when they seek so food so sincere some birds look graceful like eagles , some are just cute like parratos",
      "dogs can compare with cutuness to cats extreme radiation of cuteness even puppy sounds kawaii",
-     "slow but wise , master Oogway vibes but kinds eyes love it"
+     "slow but wise , master Oogway vibes but kind eyes love it"
     
     ]
     
@@ -33,8 +33,9 @@ struct ContentView: View {
     @State var currentIndex : Int = 0
     @State var tapCount : Int = 0
     @State var isAnimating : Bool = false
+    @State var isLiked : Bool = false
     
-    @State var isTransAnimating : Bool = false
+    @State var favorites : Set<Int> = []
     
     var firstTime = 0
     
@@ -87,9 +88,12 @@ extension ContentView {
         descriptionAnimal
         
         rating
+       HStack{
+           button
+               .padding(10)
+           likebutton
+       }
        
-        button
-        
         cardsexplored
         
     }
@@ -173,6 +177,21 @@ extension ContentView{
             
         })
         .buttonStyle(.borderedProminent)
+    }
+    
+    
+    private var likebutton : some View{
+        Button(action: {
+            if !favorites.contains(currentIndex){
+                favorites.insert(currentIndex)
+            }
+            else{
+                favorites.remove(currentIndex)
+            }
+            
+        }, label: {
+            Image(systemName: (favorites.contains(currentIndex))   ?  "heart.fill" : "heart")
+        })
     }
     
     private var cardsexplored : some View{
